@@ -65,7 +65,7 @@ namespace PROG6212CMCSAPP.Controllers
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("", "An error occurred while saving the claim: " + ex.Message);
+                    ModelState.AddModelError("", "An error occurred while saving the claim: " + ex.Message);//Error handling
                 }
             }
 
