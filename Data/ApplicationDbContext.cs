@@ -9,7 +9,7 @@ namespace PROG6212CMCSAPP.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
 
-        public DbSet<Claim> Claims { get; set; }
+        public DbSet<Claim> Claims { get; set; }//Database creation
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
