@@ -2,7 +2,7 @@
 
 ## Overview
 
-The **Contract Monthly Claim System (CMCS)** is a web-based application designed to help contractors submit, track, and manage their monthly work claims. Users can submit their claims for hours worked, view their claim history, check the status of claims, and receive help and support through the application.
+The **Contract Monthly Claim System (CMCS)** is a web-based application designed to assist contractors in submitting, tracking, and managing their monthly work claims. Users can easily submit their claims for hours worked, view their claim history, check the status of claims, and receive help and support through the application. 
 
 This project is part of the Portfolio of Evidence (PoE) for the PROG6212 course.
 
@@ -132,4 +132,3 @@ If you need help with the system, feel free to contact the support team at `supp
 
 ---
 
-This README provides a clear structure to users and contributors, detailing the setup process, project features, and version control strategy. Be sure to update links and details specific to your repository (like `your-username` in the GitHub link).
