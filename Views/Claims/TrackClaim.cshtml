@@ -1,0 +1,33 @@
+﻿@model PROG6212CMCSAPP.Models.Claim
+
+<div class="container mt-5">
+    <h2>Claim Status</h2>
+    <p><strong>Lecturer:</strong> @Model.LecturerName</p>
+    <p><strong>Status:</strong> @Model.Status</p>
+
+    <div class="progress mt-3">
+        <div class="progress-bar @(GetProgressClass(Model.Status))" role="progressbar"
+             style="width: @GetProgressPercentage(Model.Status)%;">
+            @Model.Status
+        </div>
+    </div>
+</div>
+
+@functions {
+    private int GetProgressPercentage(string status) =>
+        status switch
+        {
+            "Pending" => 33,
+            "Approved" => 100,
+            "Rejected" => 100,
+            _ => 0
+        };
+
+    private string GetProgressClass(string status) =>
+        status switch
+        {
+            "Approved" => "bg-success",
+            "Rejected" => "bg-danger",
+            _ => "bg-warning"
+        };
+}

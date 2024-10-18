@@ -1,39 +1,56 @@
-﻿@{
-    ViewBag.Title = "My Claims - CMCS";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@model IEnumerable<PROG6212CMCSAPP.Models.Claim>
 
 <div class="container mt-5">
-    <h2 class="mb-4">My Claims</h2> <!--Claims table-->
-
-    <table class="table table-hover">
-        <thead class="thead-dark">
+    <h2>All Claims</h2>
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <th>Claim ID</th>
-                <th>Date Submitted</th>
+                <th>Lecturer Name</th>
                 <th>Hours Worked</th>
                 <th>Hourly Rate</th>
                 <th>Total Amount</th>
-                <th>Status</th> <!--Claim status-->
+                <th>Status</th>
+                <th>Document</th>
+                <th>Submission Date</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>#1</td>
-                <td>2024-09-01</td> <!--Fixed date formatting-->
-                <td>40</td>
-                <td>$50.00</td>
-                <td>R2,000.00</td>
-                <td>Pending</td>
-            </tr>
-            <tr>
-                <td>#2</td>
-                <td>2024-08-01</td>
-                <td>35</td>
-                <td>$50.00</td>
-                <td>R1,750.00</td>
-                <td>Approved</td>
-            </tr>
+            @foreach (var claim in Model)
+            {
+                <tr>
+                    <td>@claim.LecturerName</td>
+                    <td>@claim.HoursWorked</td>
+                    <td>@claim.HourlyRate.ToString("C")</td>
+                    <td>@claim.TotalAmount.ToString("C")</td>
+                    <td>@claim.Status</td>
+                    <td>
+                        @if (claim.DocumentData != null)
+                        {
+                            <a href="@Url.Action("Download", "Claims", new { id = claim.ClaimId })">Download</a>
+                        }
+                        else
+                        {
+                            <span>No document</span>
+                        }
+                    </td>
+                    <td>@claim.SubmissionDate.ToString("g")</td>
+                    <td>
+                        @if (claim.Status == "Pending")
+                        {
+                            <form asp-action="UpdateStatus" method="post">
+                                <input type="hidden" name="id" value="@claim.ClaimId" />
+                                <button type="submit" name="status" value="Approved" class="btn btn-sm btn-success">Approve</button>
+                                <button type="submit" name="status" value="Rejected" class="btn btn-sm btn-danger">Reject</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <span>@claim.Status on @claim.ApprovalDate?.ToString("g")</span>
+                        }
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>

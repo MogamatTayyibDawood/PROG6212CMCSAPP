@@ -3,32 +3,32 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewBag.Title</title>
+    <title>@ViewBag.Title - CMCS</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-    <style>/*css for custom buttons and navbar*/
+    <style>
         .btn-gradient {
             background: linear-gradient(to right, #00c6ff, #0072ff);
             color: white;
             border: none;
         }
 
-            .btn-gradient:hover {/*Hover effect*/
+            .btn-gradient:hover {
                 background: linear-gradient(to right, #0072ff, #00c6ff);
             }
 
         .navbar-custom {
-            background: linear-gradient(to right, #4facfe, #00f2fe); /* Lighter gradient for better contrast */
+            background: linear-gradient(to right, #4facfe, #00f2fe);
         }
 
             .navbar-custom .navbar-brand,
             .navbar-custom .nav-link {
-                color: white; /* Ensure the text is white for visibility */
+                color: white;
             }
 
                 .navbar-custom .nav-link:hover {
-                    color: #ffeb3b; /* Change the hover color to yellow for contrast */
+                    color: #ffeb3b;
                 }
     </style>
 </head>
@@ -36,14 +36,12 @@
     @{
         var controller = ViewContext.RouteData.Values["controller"]?.ToString();
         var action = ViewContext.RouteData.Values["action"]?.ToString();
-
         if (controller != "Home" || action != "Index")
         {
-            // Render the navigation bar for all pages except the home page.
             <nav class="navbar navbar-expand-lg navbar-custom">
                 <a class="navbar-brand" href="@Url.Action("Index", "Home")">CMCS</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span> 
+                    <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
@@ -61,16 +59,18 @@
             </nav>
         }
     }
-
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2024 - Contract Monthly Claim System</p>
+            <p>&copy; @DateTime.Now.Year - Contract Monthly Claim System</p>
         </footer>
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

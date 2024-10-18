@@ -1,3 +1,8 @@
+using PROG6212CMCSAPP.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Diagnostics;
+using System.Net;
+
 namespace PROG6212CMCSAPP
 {
     public class Program
@@ -9,23 +14,31 @@ namespace PROG6212CMCSAPP
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            // Add DbContext for SQL Server
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            // Configure the HTTP request pipeline
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
+            }
+            else
+            {
+                app.UseDeveloperExceptionPage();
             }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
-
             app.UseAuthorization();
 
+            // Set default route
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
