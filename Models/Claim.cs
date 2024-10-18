@@ -4,6 +4,7 @@ namespace PROG6212CMCSAPP.Models
 {
     public class Claim
     {
+        //submitted by lecturers
         [Key]
         public int ClaimId { get; set; }
 
