@@ -7,7 +7,7 @@ namespace PROG6212CMCSAPP.Models
         //submitted by lecturers
         [Key]
         public int ClaimId { get; set; }
-
+        //DAta for database
         [Required]
         [Display(Name = "Lecturer Name")]
         public string LecturerName { get; set; }
