@@ -16,7 +16,7 @@ namespace PROG6212CMCSAPP
 
             // Add DbContext for SQL Server
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); //Database connection
 
 
             var app = builder.Build();
