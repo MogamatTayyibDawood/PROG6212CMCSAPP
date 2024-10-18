@@ -3,6 +3,7 @@ using PROG6212CMCSAPP.Models;
 
 namespace PROG6212CMCSAPP.Data
 {
+    //database
     public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
