@@ -42,7 +42,7 @@ namespace PROG6212CMCSAPP.Controllers
         public async Task<IActionResult> Create(Claim claim)
         {
             if (!ModelState.IsValid) return View(claim);
-
+            //lecturer
             // Set default values or remove dependency on user
             claim.LecturerName = "Anonymous"; // Default lecturer name or leave it null
             claim.Lecturer = null; // No lecturer associated
