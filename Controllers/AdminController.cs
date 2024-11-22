@@ -15,10 +15,10 @@ namespace PROG6212CMCSAPP.Controllers
             _context = context;
         }
 
-        // Admin Dashboard (Main View)
+        
         public IActionResult Index()
         {
-            return View("AdminDashboard");
+            return View("AdminDashboard");// Admin Dashboard 
         }
 
         // Generate Report (Handles Report Generation for Claims)
