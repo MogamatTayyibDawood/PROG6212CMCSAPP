@@ -48,11 +48,11 @@ namespace PROG6212CMCSAPP.Controllers
             return View(pendingClaims);
         }
 
-        // Track Claims (View All Claims, No ID required)
-        public IActionResult TrackClaim()
+        
+        public IActionResult TrackClaim()// Track Claims (View All Claims, No ID required)
         {
-            var claims = _context.Claims.ToList();  // Retrieve all claims
-            return View(claims);  // Pass claims list to view
+            var claims = _context.Claims.ToList();  
+            return View(claims);  
         }
     }
 }
