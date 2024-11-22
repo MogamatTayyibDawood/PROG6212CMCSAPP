@@ -16,27 +16,27 @@ namespace PROG6212CMCSAPP.Controllers
             _context = context;
         }
 
-        // GET: Claims
+        
         public async Task<IActionResult> Index()
         {
             var claims = await _context.Claims.ToListAsync();
             return View("MyClaims", claims);
         }
 
-        // GET: Claims/MyClaims
+     
         public async Task<IActionResult> MyClaims()
         {
             var claims = await _context.Claims.ToListAsync();
             return View(claims);
         }
 
-        // GET: Claims/Create
+        
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Claims/Create
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Claim claim)
