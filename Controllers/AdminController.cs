@@ -24,11 +24,11 @@ namespace PROG6212CMCSAPP.Controllers
        
         public IActionResult GenerateReport(DateTime? startDate, DateTime? endDate) // Generate Report (Handles Report Generation for Claims)
         {
-            if (startDate == null)
-                startDate = DateTime.Today.AddMonths(-1); // Default to last month
+            if (startDate == null)  // dates and months 
+                startDate = DateTime.Today.AddMonths(-1); 
 
             if (endDate == null)
-                endDate = DateTime.Today; // Default to today
+                endDate = DateTime.Today; 
 
             ViewBag.StartDate = startDate;
             ViewBag.EndDate = endDate;
