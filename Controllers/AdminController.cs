@@ -21,8 +21,8 @@ namespace PROG6212CMCSAPP.Controllers
             return View("AdminDashboard");// Admin Dashboard 
         }
 
-        // Generate Report (Handles Report Generation for Claims)
-        public IActionResult GenerateReport(DateTime? startDate, DateTime? endDate)
+       
+        public IActionResult GenerateReport(DateTime? startDate, DateTime? endDate) // Generate Report (Handles Report Generation for Claims)
         {
             if (startDate == null)
                 startDate = DateTime.Today.AddMonths(-1); // Default to last month
