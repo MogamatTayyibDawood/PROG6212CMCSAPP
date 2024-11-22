@@ -65,8 +65,8 @@ namespace PROG6212CMCSAPP.Controllers
             return View(claim);
         }
 
-        // GET: Claims/Delete/5
-        public async Task<IActionResult> Delete(int id)
+        
+        public async Task<IActionResult> Delete(int id)// delete
         {
             var claim = await _context.Claims.FindAsync(id);
             if (claim == null) return NotFound();
@@ -74,7 +74,7 @@ namespace PROG6212CMCSAPP.Controllers
             return View(claim);
         }
 
-        // POST: Claims/Delete/5
+       
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
