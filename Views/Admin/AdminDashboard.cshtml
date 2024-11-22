@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12 mb-4">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Admin Dashboard</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Generate Reports -->
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-file-alt fa-3x mb-3 text-primary"></i>
+                                    <h5 class="card-title">Generate Reports</h5>
+                                    <p class="card-text">Generate and export claim reports</p>
+                                    <a href="@Url.Action("GenerateReport", "Admin")" class="btn btn-primary">View Reports</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pending Claims -->
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-clock fa-3x mb-3 text-warning"></i>
+                                    <h5 class="card-title">Pending Claims</h5>
+                                    <p class="card-text">Review and process pending claims</p>
+                                    <a href="@Url.Action("PendingClaims", "Admin")" class="btn btn-warning">View Pending</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Track Claims -->
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-search fa-3x mb-3 text-info"></i>
+                                    <h5 class="card-title">Track Claims</h5>
+                                    <p class="card-text">Track and monitor claim status</p>
+                                    <a href="@Url.Action("TrackClaim", "Admin")" class="btn btn-info">Track Claims</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

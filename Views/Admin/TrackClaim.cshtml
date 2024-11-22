@@ -1,0 +1,30 @@
+﻿@model List<PROG6212CMCSAPP.Models.Claim>
+
+<div class="container mt-5">
+    <h2>Track All Claims</h2>
+    @if (Model.Count == 0)
+    {
+        <p>No claims found.</p>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var claim in Model)
+            {
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <i class="fas fa-search fa-3x mb-3 text-info"></i>
+                            <h5 class="card-title">Claim #@claim.ClaimId</h5>
+                            <p class="card-text">Status: @claim.Status</p>
+                            <p><strong>Lecturer:</strong> @claim.LecturerName</p>
+                            <p><strong>Hours Worked:</strong> @claim.HoursWorked</p>
+                            <p><strong>Total Amount:</strong> @claim.TotalAmount.ToString("C")</p>
+                            <a href="@Url.Action("TrackClaim", "Admin", new { id = claim.ClaimId })" class="btn btn-info">Track Claim</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

@@ -1,56 +1,77 @@
 ﻿@model IEnumerable<PROG6212CMCSAPP.Models.Claim>
+@{
+    ViewData["Title"] = "Claims Dashboard";
+}
 
-<div class="container mt-5">
-    <h2>All Claims</h2>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Lecturer Name</th>
-                <th>Hours Worked</th>
-                <th>Hourly Rate</th>
-                <th>Total Amount</th>
-                <th>Status</th>
-                <th>Document</th>
-                <th>Submission Date</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var claim in Model)
-            {
-                <tr>
-                    <td>@claim.LecturerName</td>
-                    <td>@claim.HoursWorked</td>
-                    <td>@claim.HourlyRate.ToString("C")</td>
-                    <td>@claim.TotalAmount.ToString("C")</td>
-                    <td>@claim.Status</td>
-                    <td>
-                        @if (claim.DocumentData != null)
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <div class="d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">Claims Dashboard</h4>
+                @if (User.IsInRole("Lecturer"))
+                {
+                    <a asp-action="Create" class="btn btn-light">Submit New Claim</a>
+                }
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover" id="claimsTable">
+                    <thead>
+                        <tr>
+                            <th>Claim ID</th>
+                            <th>Lecturer</th>
+                            <th>Total Amount</th>
+                            <th>Status</th>
+                            <th>Submission Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var claim in Model)
                         {
-                            <a href="@Url.Action("Download", "Claims", new { id = claim.ClaimId })">Download</a>
+                            <tr>
+                                <td>@claim.ClaimId</td>
+                                <td>@claim.LecturerName</td>
+                                <td>@claim.TotalAmount.ToString("C")</td>
+                                <td>
+                                    <span class="badge @GetStatusBadgeClass(claim.Status)">
+                                        @claim.Status
+                                    </span>
+                                </td>
+                                <td>@claim.SubmissionDate?.ToShortDateString()</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a asp-action="Details" asp-route-id="@claim.ClaimId"
+                                           class="btn btn-sm btn-info">Details</a>
+                                        @if (User.IsInRole("ProgrammeCoordinator") && claim.Status == "Pending")
+                                        {
+                                            <button type="button" class="btn btn-sm btn-success"
+                                                    onclick="approveClaim(@claim.ClaimId)">
+                                                Approve
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-danger"
+                                                    onclick="rejectClaim(@claim.ClaimId)">
+                                                Reject
+                                            </button>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
                         }
-                        else
-                        {
-                            <span>No document</span>
-                        }
-                    </td>
-                    <td>@claim.SubmissionDate.ToString("g")</td>
-                    <td>
-                        @if (claim.Status == "Pending")
-                        {
-                            <form asp-action="UpdateStatus" method="post">
-                                <input type="hidden" name="id" value="@claim.ClaimId" />
-                                <button type="submit" name="status" value="Approved" class="btn btn-sm btn-success">Approve</button>
-                                <button type="submit" name="status" value="Rejected" class="btn btn-sm btn-danger">Reject</button>
-                            </form>
-                        }
-                        else
-                        {
-                            <span>@claim.Status on @claim.ApprovalDate?.ToString("g")</span>
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
+
+@functions {
+    public string GetStatusBadgeClass(string status) => status switch
+    {
+        "Approved" => "bg-success",
+        "Pending" => "bg-warning",
+        "Rejected" => "bg-danger",
+        _ => "bg-secondary"
+    };
+}

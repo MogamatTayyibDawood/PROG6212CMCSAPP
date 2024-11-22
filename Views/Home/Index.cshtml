@@ -7,10 +7,9 @@
 <!--https://www.w3schools.com/asp/webpages_layout.asp-->
 <!--https://www.tutorialspoint.com/asp.net_wp/asp.net_wp_layouts.htm-->
 <!--https://stackoverflow.com/questions/71739170/redirect-from-layout-cshtml-to-homepage-on-page-load-->
-
 <!--Improve UI-->
-<div class="hero-section text-center" style="background-image: url('/images/hero-bg.jpg'); background-size: cover; background-attachment: fixed; padding: 100px 0; color: white; position: relative;"><!--Hero section-->
-    <div style="background-color: rgba(0, 0, 0, 0.5); position: absolute; top: 0; left: 0; right: 0; bottom: 0;"></div> <!--Adjusted padding-->
+<div class="hero-section text-center" style="background-image: url('/images/hero-bg.jpg'); background-size: cover; background-attachment: fixed; padding: 100px 0; color: white; position: relative;">
+    <div style="background-color: rgba(0, 0, 0, 0.5); position: absolute; top: 0; left: 0; right: 0; bottom: 0;"></div>
     <div class="container position-relative" style="z-index: 1;">
         <h1 class="display-3" style="font-family: 'Poppins', sans-serif;">Welcome to the Contract Monthly Claim System</h1>
         <p class="lead">Easily submit, track, and manage your monthly claims.</p>
@@ -18,7 +17,7 @@
     </div>
 </div>
 
-<div class="container mt-5"> <!--home page cards-->
+<div class="container mt-5">
     <div class="row text-center">
         <div class="col-md-4 mb-4">
             <div class="card shadow-lg p-4">
@@ -33,7 +32,7 @@
                 <i class="fas fa-eye fa-3x text-primary"></i>
                 <h3 class="mt-3">View Claims</h3>
                 <p>Track the status of your submitted claims in real-time from anywhere, at any time.</p>
-                <a class="btn btn-gradient" href="@Url.Action("Index", "Claims")">View My Claims</a>
+                <a class="btn btn-gradient" href="@Url.Action("MyClaims", "Claims")">View My Claims</a>
             </div>
         </div>
         <div class="col-md-4 mb-4">
@@ -46,3 +45,5 @@
         </div>
     </div>
 </div>
+
+

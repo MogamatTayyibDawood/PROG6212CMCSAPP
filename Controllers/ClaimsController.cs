@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PROG6212CMCSAPP.Data;
 using PROG6212CMCSAPP.Models;
+using System.Threading.Tasks;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using System.IO;
 
 namespace PROG6212CMCSAPP.Controllers
 {
@@ -15,113 +16,76 @@ namespace PROG6212CMCSAPP.Controllers
             _context = context;
         }
 
-        // Create claim (Lecturers)
-        public IActionResult Create() => View();
-
-        [HttpPost]
-        public IActionResult Create(Claim claim, IFormFile supportingDocument)
+        // GET: Claims
+        public async Task<IActionResult> Index()
         {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    // Check for supporting document
-                    if (supportingDocument != null)
-                    {
-                        var allowedExtensions = new[] { ".pdf", ".docx", ".xlsx" };
-                        var fileExtension = Path.GetExtension(supportingDocument.FileName).ToLowerInvariant();
+            var claims = await _context.Claims.ToListAsync();
+            return View("MyClaims", claims);
+        }
 
-                        if (!allowedExtensions.Contains(fileExtension))
-                        {
-                            ModelState.AddModelError("supportingDocument", "Only .pdf, .docx, and .xlsx files are allowed.");
-                            return View(claim);
-                        }
+        // GET: Claims/MyClaims
+        public async Task<IActionResult> MyClaims()
+        {
+            var claims = await _context.Claims.ToListAsync();
+            return View(claims);
+        }
 
-                        if (supportingDocument.Length > 5 * 1024 * 1024)
-                        {
-                            ModelState.AddModelError("supportingDocument", "File size must be less than 5 MB.");
-                            return View(claim);
-                        }
+        // GET: Claims/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
 
-                        using (var memoryStream = new MemoryStream())
-                        {
-                            supportingDocument.CopyTo(memoryStream);
-                            claim.DocumentData = memoryStream.ToArray();
-                        }
-                        claim.DocumentType = supportingDocument.ContentType;
-                    }
+        // POST: Claims/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Claim claim)
+        {
+            if (!ModelState.IsValid) return View(claim);
 
-                    // Calculate total amount and set other properties
-                    claim.TotalAmount = claim.HoursWorked * claim.HourlyRate;
-                    claim.Status = "Pending";
-                    claim.SubmissionDate = DateTime.Now;
+            // Set default values or remove dependency on user
+            claim.LecturerName = "Anonymous"; // Default lecturer name or leave it null
+            claim.Lecturer = null; // No lecturer associated
+            claim.Status = "Pending";
+            claim.SubmissionDate = DateTime.UtcNow;
 
-                    // Add to database
-                    _context.Claims.Add(claim);
-                    _context.SaveChanges();
+            // Generate a new claim ID (optional, if you're using an auto-incrementing ID in the database, this will happen automatically)
+            _context.Claims.Add(claim);
+            await _context.SaveChangesAsync();
 
-                    TempData["SuccessMessage"] = "Claim submitted successfully!";
-                    return RedirectToAction("TrackClaim", new { id = claim.ClaimId });
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", "An error occurred while saving the claim: " + ex.Message);//Error handling
-                }
-            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        // GET: Claims/Details/5
+        public async Task<IActionResult> Details(int id)
+        {
+            var claim = await _context.Claims.FindAsync(id);
+            if (claim == null) return NotFound();
 
             return View(claim);
         }
 
-        // View all pending claims (Coordinators and Managers)
-        public IActionResult PendingClaims()
+        // GET: Claims/Delete/5
+        public async Task<IActionResult> Delete(int id)
         {
-            var pendingClaims = _context.Claims
-                .Where(c => c.Status == "Pending")
-                .ToList();
-            return View(pendingClaims);
+            var claim = await _context.Claims.FindAsync(id);
+            if (claim == null) return NotFound();
+
+            return View(claim);
         }
 
-        [HttpPost]
-        public IActionResult UpdateStatus(int id, string status)
+        // POST: Claims/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var claim = _context.Claims.Find(id);
+            var claim = await _context.Claims.FindAsync(id);
             if (claim != null)
             {
-                claim.Status = status;
-                claim.ApprovalDate = DateTime.Now;
-                _context.SaveChanges();
+                _context.Claims.Remove(claim);
+                await _context.SaveChangesAsync();
             }
-            return RedirectToAction("PendingClaims");
-        }
-
-        // Track claim status (Lecturer)
-        public IActionResult TrackClaim(int id)
-        {
-            var claim = _context.Claims.Find(id);
-            if (claim == null)
-            {
-                return NotFound();
-            }
-            return View(claim);
-        }
-
-        // Download document (for Managers or Coordinators)
-        public IActionResult Download(int id)
-        {
-            var claim = _context.Claims.Find(id);
-            if (claim == null || claim.DocumentData == null)
-            {
-                return NotFound();
-            }
-
-            return File(claim.DocumentData, claim.DocumentType, "supporting-document");
-        }
-
-        // List all claims (for overview purposes)
-        public IActionResult Index()
-        {
-            var claims = _context.Claims.ToList();
-            return View(claims);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

@@ -1,3 +1,15 @@
 ﻿@using PROG6212CMCSAPP
 @using PROG6212CMCSAPP.Models
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@functions {
+    public static string GetStatusBadgeClass(string status)
+    {
+        return status switch
+        {
+            "Pending" => "badge-warning",
+            "Approved" => "badge-success",
+            "Rejected" => "badge-danger",
+            _ => "badge-secondary",
+        };
+    }
+}

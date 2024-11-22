@@ -8,6 +8,24 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .content {
+            flex: 1;
+        }
+
+        footer {
+            background: #f8f9fa;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: auto;
+            border-top: 1px solid #dee2e6;
+        }
+
         .btn-gradient {
             background: linear-gradient(to right, #00c6ff, #0072ff);
             color: white;
@@ -46,26 +64,28 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Create", "Claims")">Submit Claim</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="@Url.Action("Index", "Claims")">View Claims</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Help", "Home")">Help & Support</a>
+                            <a class="nav-link" href="@Url.Action("Index", "Admin")">Admin Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Index", "Home")">Back to Home</a>
                         </li>
                     </ul>
+
                 </div>
             </nav>
         }
     }
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Contract Monthly Claim System</p>
-        </footer>
+    <div class="content">
+        <div class="container body-content">
+            @RenderBody()
+        </div>
     </div>
+    <footer>
+        <p>&copy; @DateTime.Now.Year - Contract Monthly Claim System</p>
+    </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

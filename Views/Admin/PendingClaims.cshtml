@@ -1,0 +1,35 @@
+﻿@model IEnumerable<PROG6212CMCSAPP.Models.Claim>
+
+<h2>Pending Claims</h2>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Claim ID</th>
+            <th>Lecturer Name</th>
+            <th>Submission Date</th>
+            <th>Total Amount</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var claim in Model.Where(c => c.Status == "Pending"))
+        {
+            <tr>
+                <td>@claim.ClaimId</td>
+                <td>@claim.LecturerName</td>
+                <td>@claim.SubmissionDate?.ToShortDateString() ?? "N/A"</td>
+                <td>@claim.TotalAmount:C</td>
+                <td>@claim.Status</td>
+                <td>
+                    <form asp-action="UpdateStatus" method="post" class="d-inline">
+                        <input type="hidden" name="id" value="@claim.ClaimId" />
+                        <button name="status" value="Approved" class="btn btn-success btn-sm">Approve</button>
+                        <button name="status" value="Rejected" class="btn btn-danger btn-sm">Reject</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

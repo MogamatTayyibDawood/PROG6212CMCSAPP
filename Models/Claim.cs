@@ -1,46 +1,59 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PROG6212CMCSAPP.Models
 {
     public class Claim
     {
-        //submitted by lecturers
-        [Key]
         public int ClaimId { get; set; }
-        //DAta for database
-        [Required]
-        [Display(Name = "Lecturer Name")]
+
+        [Required(ErrorMessage = "Lecturer name is required")]
         public string LecturerName { get; set; }
 
         [Required]
-        [Display(Name = "Hours Worked")]
-        [Range(1, 1000, ErrorMessage = "Hours must be between 1 and 1000.")]
-        public int HoursWorked { get; set; }
-
-        [Required]
-        [Display(Name = "Hourly Rate")]
-        [Range(0.01, 1000, ErrorMessage = "Rate must be between 0.01 and 1000.")]
-        public decimal HourlyRate { get; set; }
-
-        [Display(Name = "Total Amount")]
-        public decimal TotalAmount { get; set; }
-
-        [Display(Name = "Notes")]
+        [StringLength(500, ErrorMessage = "Notes must be between 5 and 500 characters", MinimumLength = 5)]
         public string Notes { get; set; }
 
-        [Display(Name = "Supporting Document")]
-        public byte[] DocumentData { get; set; }
-
-        [Display(Name = "Document Type")]
-        public string DocumentType { get; set; }
+        [Required]
+        [Range(0, 10000, ErrorMessage = "Hourly rate must be between 0 and 10000")]
+        [Display(Name = "Hourly Rate")]
+        public decimal HourlyRate { get; set; }
 
         [Required]
-        public string Status { get; set; }
+        [Range(1, 500, ErrorMessage = "Hours worked must be between 1 and 500")]
+        [Display(Name = "Hours Worked")]
+        public int HoursWorked { get; set; }
+
+        // Mark the TotalAmount as NotMapped so it's not included in the database schema
+        [NotMapped]
+        public decimal TotalAmount
+        {
+            get
+            {
+                // Automatically calculate TotalAmount if it's not set
+                return HourlyRate * HoursWorked;
+            }
+        }
+
+        public string Status { get; set; } = "Pending";
 
         [Display(Name = "Submission Date")]
-        public DateTime SubmissionDate { get; set; }
+        public DateTime? SubmissionDate { get; set; }
 
         [Display(Name = "Approval Date")]
         public DateTime? ApprovalDate { get; set; }
+
+        public byte[] DocumentData { get; set; }
+
+        public string DocumentType { get; set; }
+
+        [StringLength(1000)]
+        public string RejectionReason { get; set; }
+
+        public string ApprovedBy { get; set; }
+
+        // Foreign key reference for ApplicationUser
+        public string LecturerId { get; set; }
+        public virtual ApplicationUser Lecturer { get; set; }
     }
 }

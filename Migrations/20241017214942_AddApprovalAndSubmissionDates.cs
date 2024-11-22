@@ -25,8 +25,9 @@ namespace PROG6212CMCSAPP.Migrations
                 name: "SubmissionDate",
                 table: "Claims",
                 type: "datetime2",
-                nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+                nullable: true);  // Change this to nullable: true
+
+       
         }
 
         /// <inheritdoc />
@@ -41,11 +42,11 @@ namespace PROG6212CMCSAPP.Migrations
                 table: "Claims");
 
             migrationBuilder.AddColumn<byte[]>(
-                name: "SupportingDocument",
+                name: "DocumentData",
                 table: "Claims",
                 type: "varbinary(max)",
-                nullable: false,
-                defaultValue: new byte[0]);
+                nullable: true);  // Make nullable to avoid default empty byte array
+
         }
     }
 }
