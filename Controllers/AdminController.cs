@@ -41,8 +41,8 @@ namespace PROG6212CMCSAPP.Controllers
             return View(claims);
         }
 
-        // Pending Claims (View Pending Claims)
-        public IActionResult PendingClaims()
+       
+        public IActionResult PendingClaims() // Pending Claims (View Pending Claims)
         {
             var pendingClaims = _context.Claims.Where(c => c.Status == "Pending").ToList();
             return View(pendingClaims);
