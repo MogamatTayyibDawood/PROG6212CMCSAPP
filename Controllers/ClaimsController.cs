@@ -56,8 +56,8 @@ namespace PROG6212CMCSAPP.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Claims/Details/5
-        public async Task<IActionResult> Details(int id)
+       
+        public async Task<IActionResult> Details(int id)//details
         {
             var claim = await _context.Claims.FindAsync(id);
             if (claim == null) return NotFound();
