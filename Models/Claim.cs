@@ -30,8 +30,8 @@ namespace PROG6212CMCSAPP.Models
         {
             get
             {
-                // Automatically calculate TotalAmount if it's not set
-                return HourlyRate * HoursWorked;
+               
+                return HourlyRate * HoursWorked; // Automatically calculate TotalAmount if it's not set
             }
         }
 
